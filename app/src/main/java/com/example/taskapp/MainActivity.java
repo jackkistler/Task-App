@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        TaskDataAccess tda = new TaskDataAccess();
+        TaskDataAccess tda = new TaskDataAccess(this);
         ArrayList<Task> tasks = tda.getAllTasks();
 
         for(Task t : tasks){
