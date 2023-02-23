@@ -42,6 +42,7 @@ public class TaskListActivity extends AppCompatActivity {
         lsTasks = findViewById(R.id.lsTasks);
         da = new TaskDataAccess(this);
         allTasks = da.getAllTasks();
+        Log.d(TAG, allTasks.toString());
 
         ArrayAdapter<Task> adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, allTasks);
 
@@ -53,9 +54,9 @@ public class TaskListActivity extends AppCompatActivity {
 //                Log.d(TAG, "selected index: " + i);
 //                Log.d(TAG, "selected task: " + allTasks.get(i).toString());
 //                Log.d(TAG, "selected ID: " + allTasks.get(i).getId());
-
+                Task selectedTask = allTasks.get(i);
                 Intent intent = new Intent(TaskListActivity.this, TaskDetailsActivity.class);
-                intent.putExtra(TaskDetailsActivity.EXTRA_TASK_ID, allTasks.get(i).getId());
+                intent.putExtra(TaskDetailsActivity.EXTRA_TASK_ID, selectedTask.getId());
                 startActivity(intent);
             }
         });

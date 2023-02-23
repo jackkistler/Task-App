@@ -27,14 +27,23 @@ public class MainActivity extends AppCompatActivity {
         }
 
         Task newTask = new Task("Haircut", new Date(), false);
-        newTask = tda.insertTask(newTask);
+        try {
+            newTask = tda.insertTask(newTask);
+        } catch (Exception e) {
+            //e.printStackTrace();
+            Log.d(TAG, e.getMessage());
+        }
         Log.d(TAG, "NewTask ID: " + newTask.getId());
 
         Task someTask = tda.getTaskById(1);
         Log.d(TAG, someTask.toString());
 
         someTask.setDescription("Do Homework");
-        tda.updateTask(someTask);
+        try {
+            tda.updateTask(someTask);
+        } catch (Exception e) {
+            Log.d(TAG, e.getMessage());
+        }
         Log.d(TAG, someTask.toString());
 
         int numRows = tda.deleteTask(newTask);

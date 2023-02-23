@@ -59,4 +59,11 @@ public class Task {
         String dueStr = due != null ? due.toString() : "NULL";
         return String.format("ID: %d DESC: %s DUE: %s DONE: %b", id, description, dueStr, done);
     }
+
+    public boolean isValid(){
+        if(this.description.isEmpty()){
+            return false;
+        }
+        return true;
+    }
 }
