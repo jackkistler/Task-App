@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
+import com.example.taskapp.fileio.CSVTaskDataAccess;
 import com.example.taskapp.models.Task;
 
 import java.sql.Array;
@@ -21,7 +22,7 @@ public class TaskListActivity extends AppCompatActivity {
     public static final String TAG = "TaskListActivity";
 
     private ListView lsTasks;
-    private TaskDataAccess da;
+    private Taskable da;
     private ArrayList<Task> allTasks;
     private Button btnAddTask;
 
@@ -40,7 +41,8 @@ public class TaskListActivity extends AppCompatActivity {
         });
 
         lsTasks = findViewById(R.id.lsTasks);
-        da = new TaskDataAccess(this);
+//        da = new TaskDataAccess(this);
+        da = new CSVTaskDataAccess(this);
         allTasks = da.getAllTasks();
         Log.d(TAG, allTasks.toString());
 

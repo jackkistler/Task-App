@@ -10,7 +10,7 @@ import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class TaskDataAccess {
+public class TaskDataAccess implements Taskable{
 
     private Context context;
     public static final String TAG = "TaskDataAccess";
