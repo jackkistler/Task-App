@@ -1,7 +1,9 @@
 package com.example.taskapp;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,6 +33,7 @@ public class TaskDetailsActivity extends AppCompatActivity {
     EditText txtDueDate;
     CheckBox chkDone;
     Button btnSave;
+    Button btnDelete;
     SimpleDateFormat sdf = new SimpleDateFormat("MM/d/yyyy");
 
     @Override
@@ -38,10 +41,14 @@ public class TaskDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_details);
 
+
+
         txtDescription = findViewById(R.id.txtDescription);
         txtDueDate = findViewById(R.id.txtDueDate);
         chkDone = findViewById(R.id.chkDone);
         btnSave = findViewById(R.id.btnSave);
+        btnDelete = findViewById(R.id.btnDelete);
+
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -51,6 +58,18 @@ public class TaskDetailsActivity extends AppCompatActivity {
                 }else{
                     Toast.makeText(TaskDetailsActivity.this, "Unable to save task", Toast.LENGTH_LONG).show();
                 }
+            }
+        });
+
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Log.d(TAG, "delete task " + task.getId());
+//                da.deleteTask(task);
+//                Intent i = new Intent(TaskDetailsActivity.this, TaskListActivity.class);
+//                startActivity(i);
+
+                showDeleteDialog();
             }
         });
 
@@ -64,6 +83,7 @@ public class TaskDetailsActivity extends AppCompatActivity {
             Log.d(TAG, task.toString());
 
             putDataIntoUI();
+            btnDelete.setVisibility(View.VISIBLE);
         }
 
     }
@@ -168,10 +188,31 @@ public class TaskDetailsActivity extends AppCompatActivity {
         }else{
             task = new Task(desc, date, done);
         }
+    }
+
+    private void showDeleteDialog(){
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("WHAT ARE YOU DOING!?");
+        alert.setMessage("Are you sure you want ot delete this task?");
+        alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                //actual deletion
+                da.deleteTask(task);
+                startActivity( new Intent(TaskDetailsActivity.this, TaskListActivity.class));
+                //
+            }
+        });
+        alert.setNegativeButton("NO!", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
 
 
 
-
+        alert.show();
     }
 
 

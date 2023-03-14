@@ -111,7 +111,7 @@ public class FileHelper {
                 inputStream.close();
                 data = stringBuilder.toString();
                 Log.d(TAG, "Here's the data: \n" + data);
-                return data;
+                //return data;
             }
         }catch(FileNotFoundException e){
             Log.d(TAG, "File not Found: " + e.toString());

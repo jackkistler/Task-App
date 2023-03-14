@@ -120,7 +120,7 @@ public class CSVTaskDataAccess implements Taskable {
     private void loadTasks(){
         ArrayList<Task> dataList = new ArrayList();
         String dataString = FileHelper.readFromFile(DATA_FILE, context);
-        if(dataString == null){
+        if(dataString == null || dataString.isEmpty()){
             Log.d(TAG, "NO DATA FILE");
             return;
         }
@@ -128,10 +128,14 @@ public class CSVTaskDataAccess implements Taskable {
         String[] lines = dataString.trim().split("\n");
 
         for(String line : lines){
-            Task t = convertCSVToTask(line);
-            if(t != null){
-                dataList.add(t);
-            }
+
+           // if(!line.isEmpty()){
+                Task t = convertCSVToTask(line);
+                if(t != null){
+                    dataList.add(t);
+                }
+            //}
+
         }
 
         this.allTasks = dataList;

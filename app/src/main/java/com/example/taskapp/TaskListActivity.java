@@ -6,10 +6,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.taskapp.fileio.CSVTaskDataAccess;
 import com.example.taskapp.models.Task;
@@ -44,9 +47,43 @@ public class TaskListActivity extends AppCompatActivity {
 //        da = new TaskDataAccess(this);
         da = new CSVTaskDataAccess(this);
         allTasks = da.getAllTasks();
-        Log.d(TAG, allTasks.toString());
 
-        ArrayAdapter<Task> adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, allTasks);
+        //if there are no tasks, navigate to details activity
+        if(allTasks == null || allTasks.size() == 0){
+            Intent i = new Intent(this, TaskDetailsActivity.class);
+            startActivity(i);
+        }
+
+        ArrayAdapter<Task> adapter = new ArrayAdapter(this, R.layout.custom_task_list_item, R.id.lblDescription, allTasks){
+            @Override
+            public View getView(int position, View convertView, ViewGroup parentListView){
+                View listItemView = super.getView(position, convertView, parentListView);
+                TextView lblDescription = listItemView.findViewById(R.id.lblDescription);
+                CheckBox chkDone = listItemView.findViewById(R.id.chkDone);
+
+                Task currentTask = allTasks.get(position);
+                lblDescription.setText(currentTask.getDescription());
+                chkDone.setChecked(currentTask.isDone());
+
+                chkDone.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        currentTask.setDone(chkDone.isChecked());
+                    }
+                });
+
+                listItemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Log.d(TAG, "Display Details for " + currentTask.getId());
+                    }
+                });
+
+                return listItemView;
+            }
+        };
+
+
 
         lsTasks.setAdapter(adapter);
 
@@ -61,6 +98,11 @@ public class TaskListActivity extends AppCompatActivity {
                 intent.putExtra(TaskDetailsActivity.EXTRA_TASK_ID, selectedTask.getId());
                 startActivity(intent);
             }
+
+
+
         });
+
+
     }
 }
