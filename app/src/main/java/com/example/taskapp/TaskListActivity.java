@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.example.taskapp.fileio.CSVTaskDataAccess;
 import com.example.taskapp.models.Task;
+import com.example.taskapp.sqlite.SQLTaskDataAccess;
 
 import java.sql.Array;
 import java.util.ArrayList;
@@ -33,6 +34,9 @@ public class TaskListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_list);
+
+        //Test code
+        SQLTaskDataAccess sda = new SQLTaskDataAccess(this);
 
         btnAddTask = findViewById(R.id.btnAddTask);
         btnAddTask.setOnClickListener(new View.OnClickListener() {
