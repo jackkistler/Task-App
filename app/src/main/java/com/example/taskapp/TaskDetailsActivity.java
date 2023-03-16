@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.example.taskapp.fileio.CSVTaskDataAccess;
 import com.example.taskapp.models.Task;
+import com.example.taskapp.sqlite.SQLTaskDataAccess;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -74,7 +75,8 @@ public class TaskDetailsActivity extends AppCompatActivity {
         });
 
         //da = new TaskDataAccess(this);
-        da = new CSVTaskDataAccess(this);
+//        da = new CSVTaskDataAccess(this);
+        da = new SQLTaskDataAccess(this);
         Intent i = getIntent();
         long id = i.getLongExtra(EXTRA_TASK_ID, 0);
 
@@ -209,9 +211,6 @@ public class TaskDetailsActivity extends AppCompatActivity {
                 dialogInterface.dismiss();
             }
         });
-
-
-
         alert.show();
     }
 

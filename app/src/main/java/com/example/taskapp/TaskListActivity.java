@@ -20,6 +20,7 @@ import com.example.taskapp.sqlite.SQLTaskDataAccess;
 
 import java.sql.Array;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class TaskListActivity extends AppCompatActivity {
 
@@ -36,7 +37,23 @@ public class TaskListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_task_list);
 
         //Test code
-        SQLTaskDataAccess sda = new SQLTaskDataAccess(this);
+//        SQLTaskDataAccess sda = new SQLTaskDataAccess(this);
+//////        sda.insertTask(new Task("some task", new Date(), false));
+//////        sda.insertTask(new Task("some other task", new Date(), true));
+////
+//////        ArrayList<Task> testTasks = sda.getAllTasks();
+//////        for(Task t : testTasks){
+//////            Log.d(TAG, t.toString());
+//////        }
+////        Task testTask = sda.getTaskById(2);
+////
+////
+////        testTask.setDescription("foo0000");
+////
+////        sda.updateTask(testTask);
+////        Log.d(TAG, testTask.toString());
+////        sda.deleteTask(testTask);
+
 
         btnAddTask = findViewById(R.id.btnAddTask);
         btnAddTask.setOnClickListener(new View.OnClickListener() {
@@ -49,8 +66,10 @@ public class TaskListActivity extends AppCompatActivity {
 
         lsTasks = findViewById(R.id.lsTasks);
 //        da = new TaskDataAccess(this);
-        da = new CSVTaskDataAccess(this);
+//        da = new CSVTaskDataAccess(this);
+        da = new SQLTaskDataAccess(this);
         allTasks = da.getAllTasks();
+
 
         //if there are no tasks, navigate to details activity
         if(allTasks == null || allTasks.size() == 0){
@@ -73,6 +92,12 @@ public class TaskListActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         currentTask.setDone(chkDone.isChecked());
+                        try {
+                            da.updateTask(currentTask);
+                        } catch (Exception e) {
+//                            e.printStackTrace();
+                            Log.d(TAG, "oh dang. ");
+                        }
                     }
                 });
 
@@ -80,6 +105,9 @@ public class TaskListActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         Log.d(TAG, "Display Details for " + currentTask.getId());
+                        Intent i = new Intent(TaskListActivity.this, TaskDetailsActivity.class);
+                        i.putExtra(TaskDetailsActivity.EXTRA_TASK_ID, currentTask.getId());
+                        startActivity(i);
                     }
                 });
 
@@ -91,21 +119,21 @@ public class TaskListActivity extends AppCompatActivity {
 
         lsTasks.setAdapter(adapter);
 
-        lsTasks.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//        lsTasks.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 //                Log.d(TAG, "selected index: " + i);
 //                Log.d(TAG, "selected task: " + allTasks.get(i).toString());
 //                Log.d(TAG, "selected ID: " + allTasks.get(i).getId());
-                Task selectedTask = allTasks.get(i);
-                Intent intent = new Intent(TaskListActivity.this, TaskDetailsActivity.class);
-                intent.putExtra(TaskDetailsActivity.EXTRA_TASK_ID, selectedTask.getId());
-                startActivity(intent);
-            }
+//                Task selectedTask = allTasks.get(i);
+//                Intent intent = new Intent(TaskListActivity.this, TaskDetailsActivity.class);
+//                intent.putExtra(TaskDetailsActivity.EXTRA_TASK_ID, selectedTask.getId());
+//                startActivity(intent);
+//            }
 
 
 
-        });
+//        });
 
 
     }
